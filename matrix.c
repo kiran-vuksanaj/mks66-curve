@@ -67,7 +67,7 @@ struct matrix * generate_curve_coefs( double p0, double p1,
   if( type == BEZIER ){
     struct matrix * out = new_matrix(4,1);
     out->lastcol = 1;
-    out->m[0][0] = -p0 + 3*p1 - 3*p2 + p3;
+    out->m[0][0] = -1*p0 + 3*p1 - 3*p2 + p3;
     out->m[1][0] = 3*p0 - 6*p1 + 3*p2;
     out->m[2][0] = -3*p0 + 3*p1;
     out->m[3][0] = p0;
@@ -76,12 +76,19 @@ struct matrix * generate_curve_coefs( double p0, double p1,
     // type == HERMITE
     struct matrix * out = new_matrix(4,1);
     out->lastcol = 1;
+    out->m[0][0] = 2*p0 - 2 * p1 + p2 + p3;
+    out->m[1][0] = -3*p0 + 3 * p1 - 2 * p2 - p3;
+    out->m[2][0] = p2;
+    out->m[3][0] = p0;
+    return out;
+    /*
     out->m[0][0] = p0;
     out->m[1][0] = p1;
     out->m[2][0] = p2;
     out->m[3][0] = p3;
     struct matrix * hermite = make_hermite();
     matrix_mult(hermite,out);
+    */    
     return out;
   }
 }
