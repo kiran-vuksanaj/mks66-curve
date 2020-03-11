@@ -45,7 +45,17 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p0, double p1,
                                       double p2, double p3, int type) {
-  return NULL;
+  if( type == BEZIER ){
+    struct matrix * out = new_matrix(4,1);
+    out->m[0][0] = -p0 + 3*p1 - 3*p2 + p3;
+    out->m[0][1] = 3*p0 - 6*p1 + 3*p2;
+    out->m[0][2] = -3*p0 + 3*p1;
+    out->m[0][3] = p0;
+    return out;
+  }else{
+    // type == HERMITE
+    return NULL;
+  }
 }
 
 /*======== struct matrix * make_translate() ==========
