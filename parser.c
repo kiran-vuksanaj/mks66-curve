@@ -160,6 +160,14 @@ void parse_file ( char * filename,
       printf("finished adding curve\n");
     }
 
+    else if ( strncmp(line,"hermite",strlen(line)) == 0 ) {
+      fgets(line,sizeof(line),f);
+      double x0,y0,x1,y1,rx0,ry0,rx1,ry1;
+      sscanf(line,"%lf %lf %lf %lf %lf %lf %lf %lf",
+	     &x0,&y0,&x1,&y1,&rx0,&ry0,&rx1,&ry1);
+      add_curve(edges,x0,y0,x1,y1,rx0,ry0,rx1,ry1,DEFAULT_STEP,HERMITE);
+    }
+    
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       //printf("IDENT\t%s", line);
       ident(transform);

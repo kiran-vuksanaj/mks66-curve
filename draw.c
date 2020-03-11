@@ -64,25 +64,34 @@ void add_curve( struct matrix *edges,
   y_a = y0;
   struct matrix * x_coefs = generate_curve_coefs(x0,x1,x2,x3,type);
   struct matrix * y_coefs = generate_curve_coefs(y0,y1,y2,y3,type);
+  printf("x coefficients: \n");
+  print_matrix(x_coefs);
+  printf("y coefficients: \n");
+  print_matrix(y_coefs);
   for ( t = 0; t < 1 ; t += step ){
     printf("t = %lf\n",t);
     // print_matrix(edges);
     // d + t(c + t(b + ta ) )
     x_b =
-      x_coefs->m[0][3] + t * (
-        x_coefs->m[0][2] + t * (
-	  x_coefs->m[0][1] + t * (
+      x_coefs->m[3][0] + t * (
+        x_coefs->m[2][0] + t * (
+	  x_coefs->m[1][0] + t * (
 	    x_coefs->m[0][0] * t ) ) );
     y_b =
-      y_coefs->m[0][3] + t * (
-	y_coefs->m[0][2] + t * (
-	  y_coefs->m[0][1] + t * (
+      y_coefs->m[3][0] + t * (
+	y_coefs->m[2][0] + t * (
+	  y_coefs->m[1][0] + t * (
 	    y_coefs->m[0][0] * t ) ) );
 
     add_edge(edges,x_a,y_a,0,x_b,y_b,0);
 
     x_a = x_b;
     y_a = y_b;
+  }
+  if(type == BEZIER){
+    add_edge(edges,x_a,y_a,0,x3,y3,0);
+  }else{
+    add_edge(edges,x_a,y_a,0,x1,y1,0);
   }
   // free_matrix(x_coefs);
   // free_matrix(y_coefs);
@@ -100,7 +109,7 @@ if points is full, should call grow on points
 ====================*/
 void add_point( struct matrix * points, double x, double y, double z) {
 
-  if ( points->lastcol == points->cols )
+  if ( points->lastcol+1 == points->cols )
     grow_matrix( points, points->lastcol*2);
   
   points->m[0][ points->lastcol ] = x;

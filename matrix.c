@@ -28,6 +28,7 @@ struct matrix * make_bezier() {
   ====================*/
 struct matrix * make_hermite() {
   struct matrix * out = new_matrix(4,4);
+  out->lastcol = 4;
   out->m[0][0] = 2;
   out->m[0][1] = -2;
   out->m[0][2] = 1;
@@ -65,18 +66,20 @@ struct matrix * generate_curve_coefs( double p0, double p1,
                                       double p2, double p3, int type) {
   if( type == BEZIER ){
     struct matrix * out = new_matrix(4,1);
+    out->lastcol = 1;
     out->m[0][0] = -p0 + 3*p1 - 3*p2 + p3;
-    out->m[0][1] = 3*p0 - 6*p1 + 3*p2;
-    out->m[0][2] = -3*p0 + 3*p1;
-    out->m[0][3] = p0;
+    out->m[1][0] = 3*p0 - 6*p1 + 3*p2;
+    out->m[2][0] = -3*p0 + 3*p1;
+    out->m[3][0] = p0;
     return out;
   }else{
     // type == HERMITE
     struct matrix * out = new_matrix(4,1);
+    out->lastcol = 1;
     out->m[0][0] = p0;
-    out->m[0][1] = p1;
-    out->m[0][2] = p2;
-    out->m[0][3] = p3;
+    out->m[1][0] = p1;
+    out->m[2][0] = p2;
+    out->m[3][0] = p3;
     struct matrix * hermite = make_hermite();
     matrix_mult(hermite,out);
     return out;
@@ -229,7 +232,7 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
 	a->m[r][2] * tmp->m[2][0] +
 	a->m[r][3] * tmp->m[3][0];
   }
-  free_matrix(tmp);
+  // free_matrix(tmp);
 }//end matrix_mult
 
 
@@ -294,7 +297,8 @@ Reallocates the memory for m->m such that it now has
 newcols number of collumns
 ====================*/
 void grow_matrix(struct matrix *m, int newcols) {
-  
+  printf("growing matrix to %d\n",newcols);
+  print_matrix(m);
   int i;
   for (i=0;i<m->rows;i++) {
       m->m[i] = realloc(m->m[i],newcols*sizeof(double));

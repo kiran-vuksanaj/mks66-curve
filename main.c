@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   struct matrix * edges;
   struct matrix * transform;
 
-  edges = new_matrix(4, 4);
+  edges = new_matrix(4, 512);
   transform = new_matrix(4, 4);
 
   /* print_matrix(make_rotX(M_PI/4)); */
