@@ -150,6 +150,16 @@ void parse_file ( char * filename,
       add_circle(edges,cx,cy,cz,r,DEFAULT_STEP);
     }//end circle
 
+    else if ( strncmp(line, "bezier", strlen(line)) == 0 ) {
+      fgets(line,sizeof(line),f);
+      double x0,y0,x1,y1,x2,y2,x3,y3;
+      sscanf(line,"%lf %lf %lf %lf %lf %lf %lf %lf",
+	     &x0,&y0,&x1,&y1,&x2,&y2,&x3,&y3);
+      printf("started adding curve\n");
+      add_curve(edges,x0,y0,x1,y1,x2,y2,x3,y3,DEFAULT_STEP,BEZIER);
+      printf("finished adding curve\n");
+    }
+
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       //printf("IDENT\t%s", line);
       ident(transform);

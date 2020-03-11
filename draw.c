@@ -65,6 +65,8 @@ void add_curve( struct matrix *edges,
   struct matrix * x_coefs = generate_curve_coefs(x0,x1,x2,x3,type);
   struct matrix * y_coefs = generate_curve_coefs(y0,y1,y2,y3,type);
   for ( t = 0; t < 1 ; t += step ){
+    printf("t = %lf\n",t);
+    // print_matrix(edges);
     // d + t(c + t(b + ta ) )
     x_b =
       x_coefs->m[0][3] + t * (
@@ -82,8 +84,8 @@ void add_curve( struct matrix *edges,
     x_a = x_b;
     y_a = y_b;
   }
-  free_matrix(x_coefs);
-  free_matrix(y_coefs);
+  // free_matrix(x_coefs);
+  // free_matrix(y_coefs);
 }
 
 
@@ -99,7 +101,7 @@ if points is full, should call grow on points
 void add_point( struct matrix * points, double x, double y, double z) {
 
   if ( points->lastcol == points->cols )
-    grow_matrix( points, points->lastcol + 100 );
+    grow_matrix( points, points->lastcol*2);
   
   points->m[0][ points->lastcol ] = x;
   points->m[1][ points->lastcol ] = y;
