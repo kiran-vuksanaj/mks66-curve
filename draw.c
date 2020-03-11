@@ -62,9 +62,28 @@ void add_curve( struct matrix *edges,
   double t,x_a,y_a,x_b,y_b;
   x_a = x0;
   y_a = y0;
+  struct matrix * x_coefs = generate_curve_coefs(x0,x1,x2,x3,type);
+  struct matrix * y_coefs = generate_curve_coefs(y0,y1,y2,y3,type);
   for ( t = 0; t < 1 ; t += step ){
+    // d + t(c + t(b + ta ) )
+    x_b =
+      x_coefs->m[0][3] + t * (
+        x_coefs->m[0][2] + t * (
+	  x_coefs->m[0][1] + t * (
+	    x_coefs->m[0][0] * t ) ) );
+    y_b =
+      y_coefs->m[0][3] + t * (
+	y_coefs->m[0][2] + t * (
+	  y_coefs->m[0][1] + t * (
+	    y_coefs->m[0][0] * t ) ) );
 
+    add_edge(edges,x_a,y_a,0,x_b,y_b,0);
+
+    x_a = x_b;
+    y_a = y_b;
   }
+  free_matrix(x_coefs);
+  free_matrix(y_coefs);
 }
 
 
