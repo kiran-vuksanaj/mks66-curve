@@ -129,6 +129,7 @@ void save_extension( screen s, char *file) {
     fprintf(f, "\n");
   }
   pclose(f);
+  printf("file saved @ %s\n",file);
 }
 
 
@@ -138,10 +139,10 @@ Returns:
 Will display the screen s on your monitor
 ====================*/
 void display( screen s) {
-
+  /*
   int x, y;
   FILE *f;
-
+  
   f = popen("display", "w");
 
   fprintf(f, "P3\n%d %d\n%d\n", XRES, YRES, MAX_COLOR);
@@ -152,4 +153,5 @@ void display( screen s) {
     fprintf(f, "\n");
   }
   pclose(f);
+  */
 }
