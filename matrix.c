@@ -27,7 +27,25 @@ struct matrix * make_bezier() {
   to generae the coefiecients for a hermite curve
   ====================*/
 struct matrix * make_hermite() {
-  return NULL;
+  struct matrix * out = new_matrix(4,4);
+  out->m[0][0] = 2;
+  out->m[0][1] = -2;
+  out->m[0][2] = 1;
+  out->m[0][3] = 1;
+  out->m[1][0] = -3;
+  out->m[1][1] = 3;
+  out->m[1][2] = -2;
+  out->m[1][3] = -1;
+  out->m[2][0] = 0;
+  out->m[2][1] = 0;
+  out->m[2][2] = 1;
+  out->m[2][3] = 0;
+  out->m[3][0] = 1;
+  out->m[3][1] = 0;
+  out->m[3][2] = 0;
+  out->m[3][3] = 0;
+  print_matrix(out);
+  return out;
 }
 
 /*======== struct matrix * generate_curve_coefs() ==========
@@ -54,7 +72,14 @@ struct matrix * generate_curve_coefs( double p0, double p1,
     return out;
   }else{
     // type == HERMITE
-    return NULL;
+    struct matrix * out = new_matrix(4,1);
+    out->m[0][0] = p0;
+    out->m[0][1] = p1;
+    out->m[0][2] = p2;
+    out->m[0][3] = p3;
+    struct matrix * hermite = make_hermite();
+    matrix_mult(hermite,out);
+    return out;
   }
 }
 
