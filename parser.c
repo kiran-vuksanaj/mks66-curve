@@ -143,6 +143,13 @@ void parse_file ( char * filename,
       matrix_mult(tmp, transform);
     }//end rotate
 
+    else if ( strncmp(line, "circle", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      double cx,cy,cz,r;
+      sscanf(line, "%lf %lf %lf %lf",&cx,&cy,&cz,&r);
+      add_circle(edges,cx,cy,cz,r,DEFAULT_STEP);
+    }//end circle
+
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       //printf("IDENT\t%s", line);
       ident(transform);

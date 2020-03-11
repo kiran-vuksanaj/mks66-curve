@@ -4,6 +4,8 @@
 #include "matrix.h"
 #include "ml6.h"
 
+#define DEFAULT_STEP 0.01
+
 //advanced shapes
 void add_circle( struct matrix * points,
                  double cx, double cy, double cz,
